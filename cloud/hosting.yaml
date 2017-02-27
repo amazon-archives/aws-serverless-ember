@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Ember Serverless Hosting
+Resources:
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+  CodeBucket:
+    Type: AWS::S3::Bucket  
+Outputs:
+  CodeBucketName:
+    Value: !Ref CodeBucket
+    Description: The bucket used to deploy ember serverless code
+  WebsiteBucketName:
+    Value: !Ref WebsiteBucket
+    Description: The bucket name of our website bucket
+  WebsiteURL:
+    Value: !GetAtt [WebsiteBucket, WebsiteURL]
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value: !Join ['', ['https://', !GetAtt [WebsiteBucket, DomainName]]]
+    Description: Name of S3 bucket to hold website content

@@ -1,0 +1,80 @@
+import Ember from 'ember';
+import ENV from 'client/config/environment';
+
+const idPool = 		ENV.AWS_POOL_ID || '',
+  	  userPoolId = 	ENV.AWS_USER_POOL_ID || '',
+  	  appClientId = ENV.AWS_CLIENT_ID || '',
+  	  region = 		ENV.AWS_REGION || 'us-east-1';
+
+const getCredentials = (application, logins, token) => {
+	let params = {
+		'IdentityPoolId': idPool
+	};
+	if (logins) {
+		params.Logins = logins;
+	}
+	// Add the User's Id Token to the Cognito credentials login map.
+    window.AWS.config.credentials = new window.AWS.CognitoIdentityCredentials(params);
+    window.AWS.config.credentials.get(function(err) {
+      if (err) {
+        Ember.Logger.error('credentials get error: ', err);
+        application.advanceReadiness();
+      } else {
+          var apigClient = window.apigClientFactory.newClient({
+            'accessKey': window.AWS.config.credentials.accessKeyId,
+            'secretKey': window.AWS.config.credentials.secretAccessKey,
+            'sessionToken': window.AWS.config.credentials.sessionToken
+          });
+          Ember.Logger.info('AWS SDK Initialized, Registering API Gateway Client: ');
+          application.register('api:client', apigClient, {instantiate:false});
+          if (logins) {
+            application.register('auth:session', window.AWS.config.credentials.data, {instantiate: false});
+            application.register('auth:token', token, {instantiate: false});
+          }
+          application.advanceReadiness();
+      }
+    });
+};
+
+export function initialize(application) {
+  // Defer the loading of our app until we intiialize the
+  // AWS SDK, API Gateway, and retrieve any user sessions
+  application.deferReadiness();
+
+  window.AWS.config.region = region;
+  window.AWS.config.credentials = new window.AWS.CognitoIdentityCredentials({
+	  'IdentityPoolId': idPool
+  });
+
+  // cognito user pool
+  let poolData = { 
+    'UserPoolId' : userPoolId, 
+    'ClientId' : appClientId
+  },
+  userPool = new window.AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData),
+  cognitoUser = userPool.getCurrentUser();
+  application.register('cognito:userPool', userPool, {instantiate:false});
+  
+// Check if a cognito user is already logged in from local storage
+  if (cognitoUser !== null) {
+    cognitoUser.getSession(function(err, result) {
+      if (result) {
+        application.register('cognito:user', cognitoUser, {instantiate:false});
+        Ember.Logger.debug('You are logged in with Cognito User Pools: ', result);
+        let login = 'cognito-idp.'+region+'.amazonaws.com/'+userPoolId,
+        	logins = {};
+        logins[login] = result.getIdToken().getJwtToken();
+        getCredentials(application, logins, result.getIdToken().getJwtToken());
+      } else {
+        getCredentials(application);
+      }
+    });
+  } else {
+    getCredentials(application);
+  }
+}
+
+export default {
+  name: 'aws',
+  initialize
+};

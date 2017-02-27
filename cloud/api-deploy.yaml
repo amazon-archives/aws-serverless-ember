@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Ember Serverless API
+Outputs:
+  ApiUrl:
+    Description: URL of your API endpoint
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: ApiGatewayApi
+        - .execute-api.
+        - Ref: AWS::Region
+        - .amazonaws.com/Prod
+Resources:
+  ApiGatewayApi:
+    Properties:
+      DefinitionUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/b88140176fcf6539ae455d06cdcde7aa
+      StageName: Prod
+      Variables:
+        LambdaFunctionName:
+          Ref: LambdaFunction
+    Type: AWS::Serverless::Api
+  LambdaFunction:
+    Properties:
+      CodeUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/8581baa445510667ec90f24e0904b821
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Table
+      Events:
+        GetDocs:
+          Properties:
+            Method: GET
+            Path: /docs
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+        NewDoc:
+          Properties:
+            Method: POST
+            Path: /docs
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
+      Handler: index.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs4.3
+    Type: AWS::Serverless::Function
+  Table:
+    Type: AWS::Serverless::SimpleTable
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+Transform: AWS::Serverless-2016-10-31

@@ -1,0 +1,83 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700);
+
+/** body / html **/
+body {
+  background: #f2f2f2;
+  font-family: 'Roboto', sans-serif;
+}
+
+/** main body container **/
+.container-main {
+  margin-top:75px;
+}
+
+/** Login **/
+.panel-login {
+  max-width: 400px;
+}
+
+/** navbar **/
+.navbar-brand {
+	padding: 10px 15px;
+}
+
+.navbar-fixed-top {
+	background-color: ghostwhite;
+	box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+}
+
+.navbar-toggle {
+	border-radius: 0;
+	border: 0;
+}
+
+/** jumbotron **/
+.jumbotron {
+	background-color:white;
+}
+
+/** panel **/
+
+.panel {
+  box-shadow:0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+  border-radius: 0;
+}
+
+.panel-heading {
+	border-radius: 0;
+}
+
+.panel-default .panel-heading {
+	background-image: none;
+	background-color: #EEE;
+}
+
+.panel-primary .panel-heading {
+	background-image: none;
+}
+
+/** buttons **/
+
+.btn {
+  border-radius: 0;
+}
+
+/** form elements **/
+
+.form-control {
+	border-radius: 0;
+}
+
+.input-group-addon {
+	border-radius: 0;
+}
+
+/** modal **/
+.modal-content {
+	border-radius: 2px;
+}
+
+/** well **/
+.well {
+	border-radius: 0;
+}

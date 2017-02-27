@@ -1,0 +1,97 @@
+<div class="panel panel-default panel-login center-block">
+	<div class="panel-body">
+		<div class="text-center">
+			<img src="images/cube.png" />
+		</div>
+		<br/>
+		<form>
+		{{#if authentication.authenticated}}
+			<p>You are currently logged in.</p> 
+			<button type="button" class="btn btn-default" {{action "logout"}}>Logout</button>
+		{{else}}
+			<div class="form-group has-feedback {{if emailInvalid 'has-warning' 'has-success'}} {{if confirmationSent 'hidden'}}">
+				{{input class="form-control" type="email" placeholder="Email" key-up="validateLoginEmail" value=username disabled=authenticating}}
+				{{#if emailInvalid}}
+				<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+				{{else}}
+				<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+				{{/if}}
+			</div>
+			<div class="form-group has-feedback {{if passInvalid 'has-warning' 'has-success'}} {{if confirmationSent 'hidden'}}">
+				{{input class="form-control" type="password" placeholder="Password" key-up="validateLoginPassword" value=password disabled=authenticating enter="login"}}
+				{{#if passInvalid}}
+				<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+				{{else}}
+				<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+				{{/if}}
+			</div>
+			{{#if error}}
+			<hr/>
+			<div class="text-danger fade in text-center" >
+					<p>{{error}}</p>
+				</div>
+			{{/if}}
+
+			{{#if confirmed}}
+				<div class="text-muted fade in text-center">
+				<hr/>
+				<i class="glyphicon glyphicon-ok"></i>&nbsp;
+				Thanks!, email confirmed! Please login.
+				</div>
+			{{/if}}
+
+			{{#if confirmationSent}}
+				<div class="text-muted fade in text-center" >
+					<hr/>
+					<form onsubmit="return false">
+						{{#unless username}}
+							<div class="form-group">
+								<label>Email address used to register</label>
+								{{input type="email" class="form-control" value=confirmationEmail placeholder="Email address"}}
+							</div>
+						{{/unless}}
+						<div class="form-group">
+							<label>Please enter the confirmation code that was sent to your email.</label>
+							{{input type="text" class="form-control" value=confirmationCode placeholder="000000"}}
+						</div>
+					</form>
+					<p><a href="javascript:void(null)" {{action 'resendConfirmation'}}>Click here</a> to resend the confirmation.</p>
+					{{#if resentConfirmation}}
+						<div class="alert alert-info alert-dismissible fade in">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+						<p>Confirmation sent</p>
+						</div>
+					{{/if}}
+				</div>
+			{{/if}}
+		{{/if}}
+		</form>
+	</div>
+
+	{{#if authenticating}}
+		<p class="text-center">
+			<img src="images/preloader.gif"/><br/>
+			<span class="text-muted">Authenticating</span>
+		</p>
+	{{else}}
+	<div class="panel-footer">
+		{{#if confirmationSent}}
+			<button type="button" class="btn btn-block btn-primary {{unless confirmationCode 'disabled'}} {{if confirming 'disabled'}}" {{action "confirmRegistration"}}>
+				Confirm Registration
+			</button>
+		{{else}}
+			<button type="button" class="btn btn-block {{unless passInvalid 'btn-success' 'btn-default'}} {{if emailInvalid 'disabled'}} {{if passInvalid 'disabled'}} {{if authenticating 'disabled'}}" {{action "login"}}>
+				Login
+			</button>
+			<button type="button" class="btn btn-block btn-default {{if emailInvalid 'disabled'}} {{if passInvalid 'disabled'}}" {{action "register"}}>
+				Register
+			</button>
+		{{/if}}
+	</div>
+
+	{{/if}}
+
+</div>
+
+
+{{outlet}}

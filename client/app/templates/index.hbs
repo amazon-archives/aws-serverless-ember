@@ -1,0 +1,37 @@
+{{outlet}}
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-6">
+		<div class="panel panel-default">
+		  <div class="panel-heading"><h3 class="panel-title">{{ user.username }}</h3></div>
+		  <div class="panel-body">
+		    
+		  </div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-6">
+		<div class="panel panel-default">
+		  <div class="panel-heading"><h3 class="panel-title">Dynamo Docs</h3></div>
+		  <div class="panel-body">
+		    
+		    <form class="form-inline" {{action "createDoc" on="submit"}}>
+			  <div class="form-group">
+			    <label class="sr-only" for="exampleInputAmount">New Item</label>
+			    <div class="input-group">
+			      <div class="input-group-addon"><i class="glyphicon glyphicon-ok"></i></div>
+			      {{input value=item id='content' class="form-control" placeholder="To-Do Item" required="required"}}
+			    </div>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Create Item</button>
+			</form>
+
+			<hr/>
+
+			<div class="list-group">
+  				{{#each model.docs as |item|}}
+  					<button type="button" class="list-group-item">{{ item.content }}</button>
+  				{{/each}}
+  			</div>
+		  </div>
+		</div>
+	</div>
+</div>
