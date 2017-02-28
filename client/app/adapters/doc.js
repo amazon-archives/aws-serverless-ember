@@ -1,14 +1,18 @@
 import DS from 'ember-data';
 import Ember from 'ember';
 
+// @TODO 
+// statusCode = 401 and message=Identity token has expired
+// redirect to login
+
 export default DS.Adapter.extend({
 	apig: Ember.inject.service(),
 	authentication: Ember.inject.service(), 
 	findAll: function() {
-		var token = this.get('authentication').get('token');
-		var api = this.get('apig'),
+		var token = this.get('authentication').get('token'),
+			api = this.get('apig'),
 			params = { 
-				'user': token, //header
+				'user': token,
 				'id': ''
 			};
 		return new Ember.RSVP.Promise(function(resolve,reject) {
@@ -23,12 +27,12 @@ export default DS.Adapter.extend({
 		});
 	},
 	createRecord: function(store, type, snapshot) {
-		var token = this.get('authentication').get('token');
-		var data = this.serialize(snapshot, { includeId: true }),
+		var token = this.get('authentication').get('token'),
+			data = this.serialize(snapshot, { includeId: true }),
 			api = this.get('apig');
 		return new Ember.RSVP.Promise(function(resolve,reject) {
 			api.client.docsPost({'user':token},data).then(function(result) {
-				Ember.Logger.debug('doc createRecord api response: ', result);
+				Ember.Logger.debug('api response: ', result);
 				if (result.data.statusCode !== 200) {
 					Ember.run(null, reject, result.data.body);
 				} else {
@@ -45,7 +49,7 @@ export default DS.Adapter.extend({
 			api = this.get('apig');
 		return new Ember.RSVP.Promise(function(resolve,reject) {
 			var id = data.id;
-			api.client.sitesIdPut({'id':id},data).then(function(result) {
+			api.client.docsPost({'id':id},data).then(function(result) {
 				Ember.Logger.debug('api: ', result);
 				Ember.run(null, resolve, result);
 			}).catch(function(error) {
@@ -56,20 +60,21 @@ export default DS.Adapter.extend({
 	},
 	deleteRecord: function(store, type, snapshot) {
 		var data = this.serialize(snapshot, { includeId: true }),
-			api = this.get('apig');
+			api = this.get('apig'),
+			token = this.get('authentication').get('token'),
+			params = { 
+				'user': token
+			};
 		return new Ember.RSVP.Promise(function(resolve,reject) {
-			var id = data.id;
-			api.client.sitesDelete({},{
-				'id':id
-			}).then(function(result) {
+			api.client.docsDelete(params,data).then(function(result) {
 				Ember.Logger.debug('api: ', result);
-				if (result.data.errorType && result.data.errorMessage) {
+				if (result && result.data && result.data.errorType && result.data.errorMessage) {
 					Ember.run(null, reject, result.data.errorMessage);
 				} else {
-					Ember.run(null, resolve, result);
+					Ember.run(null, resolve, result.config.data);
 				}
 			}).catch(function(error) {
-				console.error(error);
+				Ember.Logger.error('deleteRecord failed in adapter: ', error);
 				Ember.run(null, reject, error);
 			});
 		});

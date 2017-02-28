@@ -14,7 +14,7 @@ Outputs:
 Resources:
   ApiGatewayApi:
     Properties:
-      DefinitionUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/b88140176fcf6539ae455d06cdcde7aa
+      DefinitionUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/9f07e1522474d4beded80f86b8eb01b0
       StageName: Prod
       Variables:
         LambdaFunctionName:
@@ -22,12 +22,19 @@ Resources:
     Type: AWS::Serverless::Api
   LambdaFunction:
     Properties:
-      CodeUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/8b5f1b18b49b260984d252f183d36ef8
+      CodeUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/1bdde81a869e77200e3c9517ae96f069
       Environment:
         Variables:
           TABLE_NAME:
             Ref: Table
       Events:
+        DeleteDoc:
+          Properties:
+            Method: DELETE
+            Path: /docs
+            RestApiId:
+              Ref: ApiGatewayApi
+          Type: Api
         GetDocs:
           Properties:
             Method: GET

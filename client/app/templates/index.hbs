@@ -2,23 +2,27 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-default">
-		  <div class="panel-heading"><h3 class="panel-title">{{ user.username }}</h3></div>
+		  <div class="panel-heading"><h3 class="panel-title">JWT Decoded</h3></div>
 		  <div class="panel-body">
-		    
+		  <ul>
+		  	{{#each-in jwt as |key val|}}
+		  		<li><strong>{{key}}</strong>  {{ val }}</li>
+		  	{{/each-in}}
+		  </ul>
 		  </div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-default">
-		  <div class="panel-heading"><h3 class="panel-title">Dynamo Docs</h3></div>
+		  <div class="panel-heading"><h3 class="panel-title">Dynamo Items</h3></div>
 		  <div class="panel-body">
 		    
 		    <form class="form-inline" {{action "createDoc" on="submit"}}>
 			  <div class="form-group">
 			    <label class="sr-only" for="exampleInputAmount">New Item</label>
 			    <div class="input-group">
-			      <div class="input-group-addon"><i class="glyphicon glyphicon-ok"></i></div>
-			      {{input value=item id='content' class="form-control" placeholder="To-Do Item" required="required"}}
+			      <div class="input-group-addon"><i class="glyphicon glyphicon-save-file"></i></div>
+			      {{input value=item id='content' class="form-control" placeholder="Content" required="required"}}
 			    </div>
 			  </div>
 			  <button type="submit" class="btn btn-primary">Create Item</button>
@@ -26,11 +30,19 @@
 
 			<hr/>
 
-			<div class="list-group">
+			<ul class="list-group">
   				{{#each model.docs as |item|}}
-  					<button type="button" class="list-group-item">{{ item.content }}</button>
+  					<li class="list-group-item">
+  					<i class="glyphicon glyphicon-info-sign"></i> &nbsp;
+  						{{ item.content }}
+  						<span class="pull-right">
+  							<a class="btn btn-info btn-xs" href="javascript:void(null)" {{ action "completeDoc" item.id }} title="Remove Item">
+  								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+  						</span>
+					</li>
   				{{/each}}
-  			</div>
+  			</ul>
 		  </div>
 		</div>
 	</div>

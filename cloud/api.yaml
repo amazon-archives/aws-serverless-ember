@@ -38,6 +38,12 @@ Resources:
             RestApiId: !Ref ApiGatewayApi
             Path: /docs
             Method: POST
+        DeleteDoc:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /docs
+            Method: DELETE
 
   Table:
     Type: AWS::Serverless::SimpleTable

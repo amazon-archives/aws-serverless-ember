@@ -17,6 +17,9 @@ module.exports = function(defaults) {
   app.import('vendor/cognito/amazon-cognito-identity.min.js');
   app.import('bower_components/aws-sdk/dist/aws-sdk.js');
 
+  // jwt-decode
+  app.import('bower_components/jwt-decode/build/jwt-decode.min.js');
+
   // AWS API Gateway Generated SDK
   app.import('vendor/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js');
   app.import('vendor/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js');

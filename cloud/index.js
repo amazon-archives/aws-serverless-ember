@@ -70,14 +70,17 @@ const putMethod = (user, event, context, callback) => {
 };
 
 const deleteMethod = (user, event, context, callback) => {
-    let id = event.params.querystring.id;
-    let params = {
-        'TableName': tableName,
-        'Key': {
-            'id': id
-        },
-        'ReturnValues': 'ALL_OLD'
-    };
+    if (!event['body-json'].id) {
+        callback(500, { 'errorMessage': 'No id specified' });
+    }
+    let id = event['body-json'].id,
+        params = {
+            'TableName': tableName,
+            'Key': {
+                'id': id
+            },
+            'ReturnValues': 'ALL_OLD'
+        };
     let dbDelete = (params) => { return dynamo.delete(params).promise() };
     dbDelete(params).then( (data) => {
         if (!data.Attributes) {
@@ -85,7 +88,7 @@ const deleteMethod = (user, event, context, callback) => {
             return;
         }
         console.log(`DELETED ITEM SUCCESSFULLY WITH id = ${event.pathParameters.resourceId}`);
-        callback(null, createResponse(200, null));
+        callback(null, createResponse(200,data));
     }).catch( (err) => { 
         console.log(`DELETE ITEM FAILED FOR id = ${event.pathParameters.resourceId}, WITH ERROR: ${err}`);
         callback(null, createResponse(500, err));
