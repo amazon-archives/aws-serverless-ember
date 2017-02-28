@@ -33,8 +33,8 @@
 			<ul class="list-group">
   				{{#each model.docs as |item|}}
   					<li class="list-group-item">
-  					<i class="glyphicon glyphicon-info-sign"></i> &nbsp;
-  						{{ item.content }}
+  						{{ item.content }} <br/>
+  						<small>{{ item.id }}</small>
   						<span class="pull-right">
   							<a class="btn btn-info btn-xs" href="javascript:void(null)" {{ action "completeDoc" item.id }} title="Remove Item">
   								<i class="glyphicon glyphicon-remove"></i>
