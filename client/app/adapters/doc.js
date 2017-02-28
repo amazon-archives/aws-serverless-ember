@@ -28,11 +28,11 @@ export default DS.Adapter.extend({
 			api = this.get('apig');
 		return new Ember.RSVP.Promise(function(resolve,reject) {
 			api.client.docsPost({'user':token},data).then(function(result) {
-				Ember.Logger.debug('site.createRecord api response: ', result);
-				if (result.data.errorType && result.data.errorMessage) {
-					Ember.run(null, reject, result.data);
+				Ember.Logger.debug('doc createRecord api response: ', result);
+				if (result.data.statusCode !== 200) {
+					Ember.run(null, reject, result.data.body);
 				} else {
-					Ember.run(null, resolve, result.data);
+					Ember.run(null, resolve, result.data.body);
 				}
 			}).catch(function(error) {
 				console.error(error);

@@ -41,23 +41,32 @@ const getMethod = (user, event, context, callback) => {
 };
 
 const putMethod = (user, event, context, callback) => {
-    let item = {
-        'id': event.context['request-id'],
-        'content': event.body,
-        'user': user
-    },
-    params = {
-        'TableName': tableName,
-        'Item': item
-    };
+    if (!event['body-json'] || !event['body-json'].content) {
+        callback(null, createResponse(500, 'No content found in body'));
+        return;
+    }
+
+    let content = event['body-json'].content,
+        item = {
+            'id': event.context['request-id'],
+            'content': content,
+            'user': user
+        },
+        params = {
+            'TableName': tableName,
+            'Item': item
+        };
+
     let dbPut = (params) => { return dynamo.put(params).promise() };
+    
     dbPut(params).then( (data) => {
         console.log(`PUT ITEM SUCCEEDED WITH doc = ${item.doc}`);
-        callback(null, createResponse(200, null));
+        callback(null, createResponse(200, item));
     }).catch( (err) => { 
         console.log(`PUT ITEM FAILED FOR doc = ${item.doc}, WITH ERROR: ${err}`);
         callback(null, createResponse(500, err)); 
     });
+    
 };
 
 const deleteMethod = (user, event, context, callback) => {

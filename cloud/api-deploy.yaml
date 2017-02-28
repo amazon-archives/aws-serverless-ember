@@ -22,7 +22,7 @@ Resources:
     Type: AWS::Serverless::Api
   LambdaFunction:
     Properties:
-      CodeUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/8581baa445510667ec90f24e0904b821
+      CodeUri: s3://ember-serverless-hosting-codebucket-80zsogwi7qja/8b5f1b18b49b260984d252f183d36ef8
       Environment:
         Variables:
           TABLE_NAME:
