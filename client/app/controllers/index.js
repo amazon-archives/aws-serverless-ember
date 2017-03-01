@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 	authentication: Ember.inject.service(),
 	jwt: Ember.computed('authentication', function() {
 		var token = this.get('authentication').get('token');
-		return jwt_decode(token);
+		return window.jwt_decode(token);
 	}),
 	user: Ember.computed('cognito', function() {
 		return this.get('cognito').get('user');
