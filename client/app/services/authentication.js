@@ -23,16 +23,17 @@ export default Ember.Service.extend({
 		return then.promise;
 	},
 	logout: function() {
-		var cognito = this.get('cognito');
-		var that = this;
+		var cognito = this.get('cognito'),
+			then = Ember.RSVP.defer(),
+			auth = this;
 		cognito.clearIdentity()
 			.then(function() {
-				that.reload();
+				auth.set('authenticated',false);
+				then.resolve();
 			}, function(error) {
 				Ember.Logger.error(error);
+				then.reject(error);
 			});
-	},
-	reload: function() {
-		window.location.reload();
+		return then.promise;
 	}
 });

@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
 		return this.get('cognito').get('user');
 	}),
 	actions: {
-		createDoc() {
+		createItem() {
 			let content = this.get('item');
 			if (!content) {
 				return alert('Please enter some content');
@@ -28,7 +28,7 @@ export default Ember.Controller.extend({
 					doc.deleteRecord();
 				});
 		},
-		completeDoc(id) {
+		removeItem(id) {
 			if (confirm('Complete this item?')) {
 				this.get('store').findRecord('doc', id, { backgroundReload: false })
 					.then(function(doc) {
@@ -39,6 +39,13 @@ export default Ember.Controller.extend({
 						Ember.Logger.error(err);
 					});
 			}
+		},
+		logout() {
+			var ctrl = this;
+			this.get('authentication').logout()
+				.then(function() {
+					ctrl.transitionToRoute('/login');
+				});
 		}
 	}
 });

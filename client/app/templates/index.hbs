@@ -1,4 +1,25 @@
 {{outlet}}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img alt="Brand" src="images/cube.png" height="32">
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+      	<li>
+      		<a {{ action "logout" }} href="javascript:void(null)">Logout</a>
+      	</li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="panel panel-default">
@@ -17,9 +38,9 @@
 		  <div class="panel-heading"><h3 class="panel-title">Dynamo Items</h3></div>
 		  <div class="panel-body">
 		    
-		    <form class="form-inline" {{action "createDoc" on="submit"}}>
+		    <form class="form-inline" {{action "createItem" on="submit"}}>
 			  <div class="form-group">
-			    <label class="sr-only" for="exampleInputAmount">New Item</label>
+			    <label class="sr-only">New Item</label>
 			    <div class="input-group">
 			      <div class="input-group-addon"><i class="glyphicon glyphicon-save-file"></i></div>
 			      {{input value=item id='content' class="form-control" placeholder="Content" required="required"}}
@@ -36,7 +57,7 @@
   						{{ item.content }} <br/>
   						<small>{{ item.id }}</small>
   						<span class="pull-right">
-  							<a class="btn btn-info btn-xs" href="javascript:void(null)" {{ action "completeDoc" item.id }} title="Remove Item">
+  							<a class="btn btn-info btn-xs" href="javascript:void(null)" {{ action "removeItem" item.id }} title="Remove Item">
   								<i class="glyphicon glyphicon-remove"></i>
 							</a>
   						</span>

@@ -36,8 +36,11 @@ export default Ember.Service.extend({
 	clearIdentity(/*service*/) {
 		var then = Ember.RSVP.defer(),
 			user = this.get('user'),
-			userPoolAuth = 'cognito-idp.'+ENV.region+'.amazonaws.com/'+ENV.userPoolId;
+			userPoolAuth = 'cognito-idp.'+ENV.AWS_REGION+'.amazonaws.com/'+ENV.AWS_USER_POOL_ID;
+			Ember.Logger.info('userPoolAuth: ', userPoolAuth);
+			Ember.Logger.info('user: ', user);
 		if (typeof user !== 'undefined' && window.AWS.config.credentials.params.Logins[userPoolAuth]) {
+			Ember.Logger.info('Logging out of User Pools');
 			window.AWS.config.credentials.clearCachedId();
 			user.signOut();
 			then.resolve();
