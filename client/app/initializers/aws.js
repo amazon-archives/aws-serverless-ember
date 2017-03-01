@@ -1,11 +1,27 @@
 import Ember from 'ember';
 import ENV from 'client/config/environment';
 
+/**
+ * This initializer will intiialize the AWS SDK before
+ * the application loads. In this initilaizer we:
+ * 
+ *  - Intiialize the AWS-SDK for JavaScript
+ *  - Restore any previous sessions
+ *  - Register application values for application services
+ */
+
 const idPool = 		ENV.AWS_POOL_ID || '',
   	  userPoolId = 	ENV.AWS_USER_POOL_ID || '',
   	  appClientId = ENV.AWS_CLIENT_ID || '',
   	  region = 		ENV.AWS_REGION || 'us-east-1';
 
+/**
+ * This function is run wether we have a previous session or not
+ * 
+ * @param application - the application instance
+ * @param logins - any logins we want to setup for cognito identities
+ * @param token - Cognito User Pools token 
+ */
 const getCredentials = (application, logins, token) => {
 	let params = {
 		'IdentityPoolId': idPool
@@ -36,6 +52,10 @@ const getCredentials = (application, logins, token) => {
     });
 };
 
+/**
+ * Ember initializer 
+ * @param application - Ember application instance
+ */
 export function initialize(application) {
   // Defer the loading of our app until we intiialize the
   // AWS SDK, API Gateway, and retrieve any user sessions

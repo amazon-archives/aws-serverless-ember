@@ -1,12 +1,22 @@
 import Ember from 'ember';
 
+/**
+ * The authentication service handles
+ * storing the authentication session
+ * and user pools token.
+ */
 export default Ember.Service.extend({
 	cognito: Ember.inject.service(),
-	authenticated: undefined,
-	token: undefined,
+	/** 
+	 * set by the initializer if a previous 
+	 * session is present, otherwise set on login
+	 **/
+	authenticated: undefined, 
+	/** JWT Token */
+	token: undefined, 
 	service: undefined,
 	getProfile: function() {
-		var then = Ember.RSVP.defer();
+		let then = Ember.RSVP.defer();
 		if (typeof this.get('cognito').get('user') !== 'undefined') {
 			this.get('cognito').getUserAttributes()
 				.then(function(data) {
@@ -23,7 +33,7 @@ export default Ember.Service.extend({
 		return then.promise;
 	},
 	logout: function() {
-		var cognito = this.get('cognito'),
+		let cognito = this.get('cognito'),
 			then = Ember.RSVP.defer(),
 			auth = this;
 		cognito.clearIdentity()

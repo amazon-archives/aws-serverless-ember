@@ -5,11 +5,20 @@ import Ember from 'ember';
 // statusCode = 401 and message=Identity token has expired
 // redirect to login
 
+/**
+ * Ember adapter to handle interaction with API Gateway
+ * https://guides.emberjs.com/v2.11.0/models/customizing-adapters/
+ * 
+ * API Gateway uses Cognito User Pools for authentication. The 
+ * authentication service is used to provide the token which is
+ * provided in the header 'user' property which is set within 
+ * API Gateway.
+ */
 export default DS.Adapter.extend({
 	apig: Ember.inject.service(),
 	authentication: Ember.inject.service(), 
 	findAll: function() {
-		var token = this.get('authentication').get('token'),
+		let token = this.get('authentication').get('token'),
 			api = this.get('apig'),
 			params = { 
 				'user': token,
@@ -27,7 +36,7 @@ export default DS.Adapter.extend({
 		});
 	},
 	createRecord: function(store, type, snapshot) {
-		var token = this.get('authentication').get('token'),
+		let token = this.get('authentication').get('token'),
 			data = this.serialize(snapshot, { includeId: true }),
 			api = this.get('apig');
 		return new Ember.RSVP.Promise(function(resolve,reject) {
@@ -45,7 +54,7 @@ export default DS.Adapter.extend({
 		});
 	},
 	updateRecord: function(store, type, snapshot) {
-		var data = this.serialize(snapshot, { includeId: true }),
+		let data = this.serialize(snapshot, { includeId: true }),
 			api = this.get('apig');
 		return new Ember.RSVP.Promise(function(resolve,reject) {
 			var id = data.id;
@@ -59,7 +68,7 @@ export default DS.Adapter.extend({
 		});
 	},
 	deleteRecord: function(store, type, snapshot) {
-		var data = this.serialize(snapshot, { includeId: true }),
+		let data = this.serialize(snapshot, { includeId: true }),
 			api = this.get('apig'),
 			token = this.get('authentication').get('token'),
 			params = { 

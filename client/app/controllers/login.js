@@ -42,28 +42,27 @@ export default Ember.Controller.extend({
 		login() {
 			this.set('authenticating',true);
 			this.set('error',undefined);
-			var that = this;
-			var username = this.get('username'),
+			let ctrl = this,
+				username = this.get('username'),
 				password = this.get('password'),
 				auth = this.get('authentication');
 			if (username && password) {
-				var cognito = this.get('cognito');
+				let cognito = this.get('cognito');
 					cognito.authenticate(username,password)
 						.then(function(/*response*/) {
-							auth.reload();
-							//that.set('authenticating',false);
-							//auth.set('authenticated', true);
-							//Ember.Logger.debug('login with cognito succeeded.');
-							//that.get('target').send('gotoSites');
+							//auth.reload();
+							ctrl.set('authenticating',false);
+							Ember.Logger.debug('login with cognito succeeded.');
+							ctrl.transitionToRoute('index');
 						}, function(error) {
-							that.set('error',error.toString().split(':')[1]);
-							that.set('authenticating',false);
+							ctrl.set('error',error.toString().split(':')[1]);
+							ctrl.set('authenticating',false);
 						});
 			}
 		},
 		resendConfirmation() {
 			this.set('resentConfirmation',undefined);
-			var cognito = this.get('cognito'),
+			let cognito = this.get('cognito'),
 				email = this.get('confirmationEmail'),
 				that = this;
 			cognito.resendConfirmation(email)
