@@ -44,13 +44,11 @@ export default Ember.Controller.extend({
 			this.set('error',undefined);
 			let ctrl = this,
 				username = this.get('username'),
-				password = this.get('password'),
-				auth = this.get('authentication');
+				password = this.get('password');
 			if (username && password) {
 				let cognito = this.get('cognito');
 					cognito.authenticate(username,password)
 						.then(function(/*response*/) {
-							//auth.reload();
 							ctrl.set('authenticating',false);
 							Ember.Logger.debug('login with cognito succeeded.');
 							ctrl.transitionToRoute('index');

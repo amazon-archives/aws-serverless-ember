@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
 				});
 		},
 		removeItem(id) {
-			if (confirm('Complete this item?')) {
+			if (confirm('Remove this item?')) {
 				this.get('store').findRecord('doc', id, { backgroundReload: false })
 					.then(function(doc) {
 						doc.deleteRecord();

@@ -9,7 +9,7 @@
 #  ./deploy.sh --stack my-stack-name --bucket my-bucket-name
 ###############################################################
 
-# Update these if your using different template names
+# Default Template to use if none is specified
 TEMPLATE_FILE="api.yaml"
 TEMPLATE_DEPLOY_FILE="api-deploy.yaml"
 
@@ -24,9 +24,14 @@ do
 			echo "[i] Using Bucket: ${2}"
 			BUCKET=$2
             ;;
+        --template) 
+			echo "[i] Using Template: ${2}"
+			TEMPLATE_FILE=$2
+			TEMPLATE_DEPLOY_FILE="${TEMPLATE_FILE}-deploy.yaml"
+            ;;
         --*) 
 			echo "[!] Unknown option $1"
-			echo "Usage: deploy.sh --stack my-stack-name --bucket my-bucket-name"
+			echo "Usage: deploy.sh --stack my-stack-name --template api.yaml --bucket my-bucket-name"
 			exit 1
             ;;
     esac
@@ -43,6 +48,13 @@ fi
 if [ -z $STACK ]; then
 	echo "[!] Please specify a deployment stack name with --stack my-stack"
 	echo "    Usage: deploy.sh --stack my-stack-name --bucket my-bucket-name"
+	echo
+	exit 1
+fi
+
+if [ -z $TEMPLATE_FILE ]; then
+	echo "[!] Please specify a template file with --template template.yaml"
+	echo "    Usage: deploy.sh --stack my-stack-name --template my-template.yaml --bucket my-bucket-name"
 	echo
 	exit 1
 fi
