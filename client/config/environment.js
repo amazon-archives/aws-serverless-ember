@@ -29,11 +29,13 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.API_URL = "https://g0cgocvuu2.execute-api.us-east-1.amazonaws.com/Prod"
-    ENV.AWS_REGION = "us-east-1"
-    ENV.AWS_POOL_ID = "us-east-1:db1199e0-2943-4546-89d9-2398622fdb24"
-    ENV.AWS_USER_POOL_ID = "us-east-1_7wXrp3JHI"
-    ENV.AWS_CLIENT_ID = "5qkejo15u955n9bft9vealkt57"
+    /**
+     * Update these with your AWS credentials
+     **/
+    ENV.AWS_REGION = "<<aws-region>>"
+    ENV.AWS_POOL_ID = "<<your-cognito-pool-id>>"
+    ENV.AWS_USER_POOL_ID = "<<your-cognito-user-pool-id>>"
+    ENV.AWS_CLIENT_ID = "<<your-cognito-client-id>>"
   }
 
   if (environment === 'test') {
