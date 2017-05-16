@@ -17,7 +17,7 @@ You will need the following things properly installed on your computer.
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Bower](https://bower.io/)
 * [AWS CLI](https://aws.amazon.com/cli)
-* [Ember CLI](https://ember-cli.com/
+* [Ember CLI](https://ember-cli.com/)
 
 ## Installation
 
