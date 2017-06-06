@@ -13,8 +13,8 @@ module.exports = function(defaults) {
   app.import('vendor/jsbn.js');
   app.import('vendor/jsbn2.js');
   app.import('vendor/sjcl.js');
-  app.import('vendor/cognito/aws-cognito-sdk.min.js');
-  app.import('vendor/cognito/amazon-cognito-identity.min.js');
+  app.import('vendor/amazon-cognito/aws-cognito-sdk.min.js');
+  app.import('vendor/amazon-cognito/amazon-cognito-identity.min.js');
   app.import('bower_components/aws-sdk/dist/aws-sdk.js');
 
   // jwt-decode
