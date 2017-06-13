@@ -1,11 +1,11 @@
 # Ember Serverless on AWS
 
-Ember Serverless is a Serverless Ember.js application running on AWS. It utilizes a fully serverless architecture:
+A Serverless Ember.js application running on AWS. It utilizes a fully serverless architecture:
 
  - Cognito User Pools for authentication, registration, and confirmation
- - API Gateway for REST API 
- - Lambda as a Backend
- - CloudFormation for Infrastructure management and OpenAPI for API resource management
+ - API Gateway for REST API authenticated with Cognito User Pools
+ - Lambda and DynamoDB as a Backend
+ - CloudFormation and SAM for Infrastructure management
 
 The application utilizes Ember.js methodology by abstracting API Gateway communication into adapters, allowing you to write controller code utilizing ember models. The API Gateway SDK that is generated from API Gateway can easily be replaced if you update your API by simple replacing the `vendor/apiGateway-js-sdk` with the generated one from API Gateway. Lambda functions can easily be updated by running the included `cloud/deploy.sh` bash script which simply runs the appropriate cloudformation commands for you.
 
