@@ -23,27 +23,7 @@ You will need the following things properly installed on your computer.
 
 * `git clone https://github.com/awslabs/aws-serverless-ember`
 * `cd client`
-* `npm install`
-* `bower install`
-
-## Running / Development
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
+* `npm install && bower install`
 
 ## Creating the AWS Infrastructure
 
@@ -101,19 +81,34 @@ Use the following values returned in the Output:
     ENV.AWS_USER_POOL_ID -> CognitoUserPoolsId
     ENV.AWS_CLIENT_ID -> CognitoUserPoolsClientId
 
-Now, run your client and ensure the SDK loads properly. From the client directory, run:
+## Running / Development
 
-    ember s
+* `ember serve`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+
+### Code Generators
+
+Make use of the many generators for code, try `ember help generate` for more details
+
+### Running Tests
+
+* `ember test`
+* `ember test --server`
+
+### Building
+
+* `ember build` (development)
+* `ember build --environment production` (production)
 
 ### Deploying the Web Application
 
-Now that the infrastructure is created, build the ember app and copy it to S3, note you'll need the "WebsiteBucket" output value from the above hosting cloudformation stack you generated. If you need it again, just run `aws cloudformation describe-stacks --stack-name ember-serverless-hosting` *if you used a different name, substitute that in-place of "ember-serverless-hosting", then note the `OutputValue` for "WebsiteBucket" and use that here:
+Build the ember app and copy it to S3, note you'll need the "WebsiteBucket" output value from the above hosting cloudformation stack you generated. If you need it again, just run `aws cloudformation describe-stacks --stack-name ember-serverless-hosting` *if you used a different name, substitute that in-place of "ember-serverless-hosting", then note the `OutputValue` for "WebsiteBucket" and use that here:
 
     cd client
     ember build
     aws s3 sync dist/ s3://<<your-ember-website-bucket>>/ -acl public-read
 
-Once synced you can visit the URL for your S3 bucket using the `OutputValue` from the hosting template for "WebsiteURL". To update your bucket, just rerun the above commands.
+Once synced you can visit the URL for your S3 bucket using the `OutputValue` from the hosting template for `WebsiteURL`.
 
 ## Further Reading / Useful Links
 
