@@ -1,6 +1,6 @@
 # Ember Serverless on AWS
 
-A Serverless Ember.js application running on AWS. It utilizes a fully serverless architecture:
+[A Serverless Ember.js application running on AWS](https://aws.amazon.com/blogs/developer/creating-and-deploying-a-serverless-web-application-with-cloudformation-and-ember-js/). It utilizes a fully serverless architecture:
 
  - Cognito User Pools for authentication, registration, and confirmation
  - API Gateway for REST API authenticated with Cognito User Pools
