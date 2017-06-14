@@ -1,3 +1,6 @@
+
+![AWS Architecture Diagram](architecture.png "AWS Architecture")
+
 # Ember Serverless on AWS
 
 [A Serverless Ember.js application running on AWS](https://aws.amazon.com/blogs/developer/creating-and-deploying-a-serverless-web-application-with-cloudformation-and-ember-js/). It utilizes a fully serverless architecture:
