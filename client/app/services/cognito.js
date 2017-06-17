@@ -105,6 +105,7 @@ export default Ember.Service.extend({
 		if (typeof user !== 'undefined') {
 			Ember.Logger.info('Logging out of User Pools');
 			window.AWS.config.credentials.clearCachedId();
+			window.AWS.config.credentials.params.expired = true;
 			user.signOut();
 			then.resolve();
 		} else {
@@ -278,6 +279,11 @@ export default Ember.Service.extend({
 	    
 		cognitoUser.authenticateUser(authenticationDetails, {
 	        onSuccess: function (result) {
+	        	if (window.AWS.config.credentials.params.expired) {
+	        		// If AWS SDK credentials are expired, reload and let the
+	        		// initializer load new credentials
+	        		return window.location.reload();
+	        	}
 				Ember.set(cognito,'user',cognitoUser);
 				cognito.setIdentity(userPoolAuth,result.getIdToken().getJwtToken())
 					.then(function() {
