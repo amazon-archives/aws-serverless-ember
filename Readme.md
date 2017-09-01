@@ -43,7 +43,7 @@ Once this completes, get the outputs from the template:
 
 Note the `OutputValue` value for the `CodeBucketName` S3 bucket, this will be the bucket we use to deploy our Lambda code to. Now create the API using the included deploy script to package and deploy the Lambda code, API Gateway, and DynamoDB table:
 
-    ./deploy.sh --stack-name ember-serverless-api --template api.yaml --bucket <<bucket-name-from-above-output>>
+    ./deploy.sh --stack ember-serverless-api --template api.yaml --bucket <<bucket-name-from-above-output>>
 
 This will package the api.yaml template file and output an `api-deploy.yaml` file. This file will contain the S3 location of the automatically packaged Lambda code and template. It will then deploy the CloudFormation stack by creating a changeset. Once complete, run describe again to see the outputs:
 
