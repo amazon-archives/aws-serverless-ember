@@ -25,7 +25,14 @@ const createResponse = (statusCode, body) => {
 
 const getMethod = (user, event, context, callback) => {
     let params = {
-        'TableName': tableName
+        'TableName': tableName,
+        'KeyConditionExpression': "#user = :user",
+        'ExpressionAttributeNames': {
+            "#user": "user"
+        },
+         'ExpressionAttributeValues': {
+            ":user": user
+         },
     }, id = event.params.querystring.id, dbGet = {};
     if (id) {
         params.Key = {

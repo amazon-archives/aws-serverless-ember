@@ -22,5 +22,6 @@ import attr from 'ember-data/attr';
  * in view templates
  */
 export default DS.Model.extend({
-	content: attr('string')
+  content: attr('string'),
+  user: attr('string')
 });
