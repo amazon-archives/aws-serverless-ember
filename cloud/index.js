@@ -25,12 +25,22 @@ const createResponse = (statusCode, body) => {
 
 const getMethod = (user, event, context, callback) => {
     let params = {
-        'TableName': tableName
-    }, id = event.params.querystring.id, dbGet = {};
+        TableName: tableName,
+        FilterExpression: "#user = :user",
+        ExpressionAttributeNames: {
+            "#user":"user"
+        },
+         ExpressionAttributeValues: {
+            ":user":user
+         },
+    },
+    id = event.params.querystring.id, 
+    dbGet = {};
     if (id) {
         params.Key = {
             'id': id
-        }
+        };
+
         dbGet = (params) => { return dynamo.get(params).promise() };
     } else {
         dbGet = (params) => { return dynamo.scan(params).promise() };
