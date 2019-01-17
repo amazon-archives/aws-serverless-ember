@@ -1,5 +1,5 @@
 
-> NOTE: This sample uses the AWS CLI, CloudFormation, and the Cognito/JavaScript SDKs manually using custom authorizers and Cognito User Pools. You can now automate most of these steps with the [AWS Amplify CLI](https://github.com/aws-amplify/amplify-cli) and the [AWS Amplify Library](https://github.com/aws-amplify/amplify-js), which is now the recommended approach. This sample does still work thought if you want to manually manage these resources yourself with CloudFormation yourself
+> NOTE: This sample uses the AWS CLI, CloudFormation, and the Cognito/JavaScript SDKs manually using custom authorizers and Cognito User Pools. You can now automate most of these steps with the [AWS Amplify CLI](https://github.com/aws-amplify/amplify-cli) and the [AWS Amplify Library](https://github.com/aws-amplify/amplify-js), which is now the recommended approach. This sample does still work well if you want to manually manage these resources yourself with CloudFormation and the low level JavaScript SDK.
 
 ![AWS Architecture Diagram](architecture.png "AWS Architecture")
 
