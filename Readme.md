@@ -49,9 +49,9 @@ Note the `OutputValue` value for the `CodeBucketName` S3 bucket, this will be th
 
 This will package the api.yaml template file and output an `api-deploy.yaml` file. This file will contain the S3 location of the automatically packaged Lambda code and template. It will then deploy the CloudFormation stack by creating a changeset. Once complete, run describe again to see the outputs:
 
-    aws cloudformation describe-stacks --stack-name ember-serverless-api
+    aws cloudformation describe-stack-events --stack-name ember-serverless-api
 
-Note the `Outputs` which will contain your newly created API Gateway REST API ID which will be used to CRUD DyanmoDB items. 
+Note the `Outputs` which will contain your newly created API Gateway REST API ID which will be used to CRUD DyanmoDB items.
 
 Now, run the following to retrieve the JavaScript SDK for your newly created API:
 
