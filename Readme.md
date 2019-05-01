@@ -111,7 +111,7 @@ Build the ember app and copy it to S3, note you'll need the "WebsiteBucket" outp
 
     cd client
     ember build
-    aws s3 sync dist/ s3://<<your-ember-website-bucket>>/ -acl public-read
+    aws s3 sync dist/ s3://<<your-ember-website-bucket>>/ --acl public-read
 
 Once synced you can visit the URL for your S3 bucket using the `OutputValue` from the hosting template for `WebsiteURL`.
 
